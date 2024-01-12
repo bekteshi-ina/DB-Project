@@ -1,0 +1,127 @@
+CREATE TABLE Course (
+  course_id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100),
+  description VARCHAR (500)
+);
+
+CREATE TABLE User (
+    user_id  INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    email VARCHAR(50),
+    last_loggedIn  DATETIME
+ );
+
+CREATE TABLE Student (
+   std_id INT AUTO_INCREMENT PRIMARY KEY,
+   user_id INT,
+   FOREIGN KEY (user_id) references User (user_id)
+ );
+
+CREATE TABLE Administrator (
+   admin_id INT AUTO_INCREMENT PRIMARY KEY,
+   user_id INT,
+   FOREIGN KEY (user_id) references User (user_id)
+ );
+
+CREATE TABLE Certification (
+     certification_id INT AUTO_INCREMENT PRIMARY KEY,
+     course_id INT, 
+     std_id INT,
+     discription VARCHAR(1000),
+     ranking  DECIMAL(5,2),
+     FOREIGN KEY (course_id) REFERENCES Course(course_id),
+     FOREIGN KEY (std_id) REFERENCES Student(std_id)
+ );
+
+CREATE TABLE Enrollment (
+     std_id INT,
+     FOREIGN KEY (std_id) REFERENCES student(std_id),
+     course_id INT,
+     FOREIGN KEY (course_id) REFERENCES course(course_id)
+    
+ );
+
+CREATE TABLE Assignment(
+    assig_id INT PRIMARY KEY AUTO_INCREMENT,
+    deadline DATETIME NOT NULL,
+    description BLOB NOT NULL,
+    upload_date DATETIME NOT NULL,
+    course_id INT,
+    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+ );
+
+
+CREATE TABLE Submission(
+   sub_id INT PRIMARY KEY AUTO_INCREMENT,
+   submission_date DATETIME NOT NULL,
+   std_id INT NOT NULL,
+   assig_id INT NOT NULL,
+   FOREIGN KEY (std_id) REFERENCES Student(std_id),
+   FOREIGN KEY ( assig_id) REFERENCES Assignment( assig_id)
+ );
+
+CREATE TABLE  Schedule(
+  schedule_id INT AUTO_INCREMENT PRIMARY KEY,
+  start_date date,
+  end_date date,
+  nr_of_sessions INT,
+  session_duration time,
+  course_id INT,
+  FOREIGN KEY(course_id) references Course(course_id)
+ );
+
+CREATE TABLE Content (
+  content_id INT AUTO_INCREMENT PRIMARY KEY,
+  upload_date datetime,
+  update_date datetime,
+  content_description BLOB,
+  course_id INT,
+  FOREIGN KEY(course_id) references Course(course_id)
+ );
+
+
+CREATE TABLE Discount (
+     discount_id INT AUTO_INCREMENT PRIMARY KEY,
+     discount_name VARCHAR(30),
+     discount_rate DECIMAL(5,2),
+     start_date DATETIME,
+     end_date DATETIME,
+     course_id INT,
+     FOREIGN KEY (course_id)REFERENCES Course(course_id)
+ );
+CREATE TABLE Payment ( 
+     payment_id INT AUTO_INCREMENT PRIMARY KEY,
+     payment_method VARCHAR(15),
+     due_date DATETIME,
+     price INT,
+     course_id INT,
+     FOREIGN KEY (course_id)REFERENCES Course(course_id)
+ );
+
+
+ALTER TABLE discount
+ADD payment_id INT;
+
+ALTER TABLE discount
+ADD FOREIGN KEY (payment_id) REFERENCES payment(payment_id);
+
+
+
+ALTER TABLE payment
+ADD discount_id INT;
+
+ALTER TABLE payment
+ADD FOREIGN KEY (discount_id) REFERENCES discount (discount_id);
+
+
+
+// po shtoj te payment admin se e kishim harruar
+ALTER TABLE Payment
+ADD admin_id INT;
+
+
+ALTER TABLE Payment
+ADD FOREIGN KEY(admin_id) References Administrator (admin_id);
+
+

@@ -1,7 +1,7 @@
 CREATE TABLE Course (
   course_id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(100),
-  description VARCHAR (500)
+  description VARCHAR(500)
 );
 
 CREATE TABLE User (
@@ -9,7 +9,9 @@ CREATE TABLE User (
     first_name VARCHAR(20),
     last_name VARCHAR(20),
     email VARCHAR(50),
-    last_loggedIn  DATETIME
+    date_of_birth DATETIME,
+    date_of_creation DATETIME,
+    last_loggedIn  DATETIME,
  );
 
 CREATE TABLE Student (
@@ -39,13 +41,12 @@ CREATE TABLE Enrollment (
      FOREIGN KEY (std_id) REFERENCES student(std_id),
      course_id INT,
      FOREIGN KEY (course_id) REFERENCES course(course_id)
-    
  );
 
 CREATE TABLE Assignment(
     assig_id INT PRIMARY KEY AUTO_INCREMENT,
     deadline DATETIME NOT NULL,
-    description BLOB NOT NULL,
+    assig_info BLOB NOT NULL,
     upload_date DATETIME NOT NULL,
     course_id INT,
     FOREIGN KEY (course_id) REFERENCES Course(course_id)
@@ -55,6 +56,7 @@ CREATE TABLE Assignment(
 CREATE TABLE Submission(
    sub_id INT PRIMARY KEY AUTO_INCREMENT,
    submission_date DATETIME NOT NULL,
+   submission_file BLOB NOT NULL,
    std_id INT NOT NULL,
    assig_id INT NOT NULL,
    FOREIGN KEY (std_id) REFERENCES Student(std_id),
@@ -66,7 +68,7 @@ CREATE TABLE  Schedule(
   start_date date,
   end_date date,
   nr_of_sessions INT,
-  session_duration time,
+  session_duration TIME,
   course_id INT,
   FOREIGN KEY(course_id) references Course(course_id)
  );

@@ -1,17 +1,5 @@
-CREATE TABLE Course (
-  course_id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(100) NOT NULL,
-  description VARCHAR(500),
-  inst_id INT,
-  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
-);
-
-CREATE TABLE Instructor (
-  inst_id INT AUTO_INCREMENT PRIMARY KEY,
-  specialization VARCHAR(30),
-  user_id INT,
-  FOREIGN KEY (user_id) REFERENCES User(user_id)
-);
+create database LMS;
+use LMS;
 
 CREATE TABLE User (
     user_id  INT AUTO_INCREMENT PRIMARY KEY,
@@ -22,19 +10,26 @@ CREATE TABLE User (
     date_of_creation DATETIME NOT NULL,
     last_loggedIn  DATETIME NOT NULL
  );
-
-CREATE TABLE Student (
-   std_id INT AUTO_INCREMENT PRIMARY KEY,
-   user_id INT,
-   FOREIGN KEY (user_id) references User (user_id)
+ CREATE TABLE Student (
+   std_id INT PRIMARY KEY,
+   FOREIGN KEY (std_id) references User (user_id)
  );
-
+ CREATE TABLE Instructor (
+  specialization VARCHAR(30),
+  inst_id INT PRIMARY KEY,
+  FOREIGN KEY (inst_id) REFERENCES User(user_id)
+);
 CREATE TABLE Admin(
-   admin_id INT AUTO_INCREMENT PRIMARY KEY,
-   user_id INT,
-   FOREIGN KEY (user_id) references User (user_id)
+   admin_id INT PRIMARY KEY,
+   FOREIGN KEY (admin_id) references User (user_id)
  );
-
+CREATE TABLE Course (
+  course_id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  description VARCHAR(500),
+  inst_id INT,
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
+);
 CREATE TABLE Certification (
      certification_id INT AUTO_INCREMENT PRIMARY KEY,
      course_id INT, 
@@ -44,14 +39,12 @@ CREATE TABLE Certification (
      FOREIGN KEY (course_id) REFERENCES Course(course_id),
      FOREIGN KEY (std_id) REFERENCES Student(std_id)
  );
-
 CREATE TABLE Enrollment (
      std_id INT,
      FOREIGN KEY (std_id) REFERENCES student(std_id),
      course_id INT,
      FOREIGN KEY (course_id) REFERENCES course(course_id)
  );
-
 CREATE TABLE Assignment(
     assig_id INT PRIMARY KEY AUTO_INCREMENT,
     deadline DATETIME NOT NULL,
@@ -60,8 +53,6 @@ CREATE TABLE Assignment(
     course_id INT,
     FOREIGN KEY (course_id) REFERENCES Course(course_id)
  );
-
-
 CREATE TABLE Submission(
    sub_id INT PRIMARY KEY AUTO_INCREMENT,
    submission_date DATETIME NOT NULL,
@@ -71,7 +62,6 @@ CREATE TABLE Submission(
    FOREIGN KEY (std_id) REFERENCES Student(std_id),
    FOREIGN KEY ( assig_id) REFERENCES Assignment( assig_id)
  );
-
 CREATE TABLE  Schedule(
   schedule_id INT AUTO_INCREMENT PRIMARY KEY,
   start_date date,
@@ -81,7 +71,6 @@ CREATE TABLE  Schedule(
   course_id INT,
   FOREIGN KEY(course_id) references Course(course_id)
  );
-
 CREATE TABLE Content (
   content_id INT AUTO_INCREMENT PRIMARY KEY,
   upload_date datetime NOT NULL,
@@ -90,7 +79,6 @@ CREATE TABLE Content (
   course_id INT,
   FOREIGN KEY(course_id) references Course(course_id)
  );
-
 CREATE TABLE Discount (
      discount_id INT AUTO_INCREMENT PRIMARY KEY,
      discount_name VARCHAR(30),
@@ -100,7 +88,6 @@ CREATE TABLE Discount (
      course_id INT,
      FOREIGN KEY (course_id)REFERENCES Course(course_id)
  );
-
 CREATE TABLE Payment ( 
      payment_id INT AUTO_INCREMENT PRIMARY KEY,
      payment_method VARCHAR(15) NOT NULL,
@@ -109,7 +96,10 @@ CREATE TABLE Payment (
      course_id INT,
      discount_id INT,
      FOREIGN KEY (course_id) REFERENCES Course(course_id),
-     FOREIGN KEY (discount_id) REFERENCES Payment(discount_id)
+     FOREIGN KEY (discount_id) REFERENCES Discount(discount_id)
  );
+ 
+ SHOW TABLES;
+
 
 

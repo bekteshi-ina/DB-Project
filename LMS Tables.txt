@@ -1,7 +1,16 @@
 CREATE TABLE Course (
   course_id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(100),
-  description VARCHAR(500)
+  description VARCHAR(500),
+  inst_id INT,
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
+);
+
+CREATE TABLE Instructor (
+  inst_id INT AUTO_INCREMENT PRIMARY KEY,
+  specialization VARCHAR(30),
+  user_id INT,
+  FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 
 CREATE TABLE User (
@@ -11,7 +20,7 @@ CREATE TABLE User (
     email VARCHAR(50),
     date_of_birth DATETIME,
     date_of_creation DATETIME,
-    last_loggedIn  DATETIME,
+    last_loggedIn  DATETIME
  );
 
 CREATE TABLE Student (

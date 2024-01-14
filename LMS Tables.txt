@@ -1,59 +1,60 @@
 CREATE DATABASE LMS;
 use LMS;
 
-CREATE TABLE User (
+CREATE TABLE IF NOT EXISTS User (
     user_id  INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(20) NOT NULL,
-    last_name VARCHAR(20),
-    email VARCHAR(50),
+    first_name VARCHAR(16) NOT NULL,
+    last_name VARCHAR(16),
+    account_type VARCHAR(16) NOT NULL,
+    email VARCHAR(32),
     date_of_birth DATETIME,
     date_of_creation DATETIME NOT NULL,
     last_loggedIn  DATETIME NOT NULL
  );
 
-CREATE TABLE Instructor (
-  specialization VARCHAR(30),
+CREATE TABLE IF NOT EXISTS Instructor (
+  specialization VARCHAR(64),
   inst_id INT,
   FOREIGN KEY (inst_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE Student (
+CREATE TABLE IF NOT EXISTS Student (
    std_id INT,
    FOREIGN KEY (std_id) references User (user_id)
  );
 
-CREATE TABLE Admin(
+CREATE TABLE IF NOT EXISTS Admin(
    admin_id INT PRIMARY KEY,
    FOREIGN KEY (admin_id) references User (user_id)
  );
 
- CREATE TABLE Course (
+ CREATE TABLE IF NOT EXISTS Course (
   course_id INT AUTO_INCREMENT PRIMARY KEY,
-  title VARCHAR(100) NOT NULL,
-  description VARCHAR(500),
+  title VARCHAR(64) NOT NULL,
+  description VARCHAR(1024),
   max_participants INT,
   inst_id INT,
   FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
 );
 
-CREATE TABLE Enrollment (
+CREATE TABLE IF NOT EXISTS Enrollment (
      std_id INT,
      FOREIGN KEY (std_id) REFERENCES student(std_id),
      course_id INT,
      FOREIGN KEY (course_id) REFERENCES course(course_id)
  );
 
-CREATE TABLE Certification (
+CREATE TABLE IF NOT EXISTS Certification (
      certification_id INT AUTO_INCREMENT PRIMARY KEY,
      course_id INT, 
      std_id INT,
-     discription VARCHAR(500),
+     discription VARCHAR(512),
      ranking  DECIMAL(5,2) NOT NULL,
      FOREIGN KEY (course_id) REFERENCES Course(course_id),
      FOREIGN KEY (std_id) REFERENCES Student(std_id)
  );
 
-CREATE TABLE Assignment(
+CREATE TABLE IF NOT EXISTS Assignment(
     assig_id INT PRIMARY KEY AUTO_INCREMENT,
     deadline DATETIME NOT NULL,
     assig_info TEXT NOT NULL,
@@ -62,8 +63,7 @@ CREATE TABLE Assignment(
     FOREIGN KEY (course_id) REFERENCES Course(course_id)
  );
 
-
-CREATE TABLE Submission(
+CREATE TABLE IF NOT EXISTS Submission(
    sub_id INT PRIMARY KEY AUTO_INCREMENT,
    submission_date DATETIME NOT NULL,
    submission_file TEXT NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE Submission(
    FOREIGN KEY ( assig_id) REFERENCES Assignment( assig_id)
  );
 
-CREATE TABLE  Schedule(
+CREATE TABLE IF NOT EXISTS Schedule(
   schedule_id INT AUTO_INCREMENT PRIMARY KEY,
   start_date date,
   end_date date,
@@ -83,7 +83,7 @@ CREATE TABLE  Schedule(
   FOREIGN KEY(course_id) references Course(course_id)
  );
 
-CREATE TABLE Content (
+CREATE TABLE IF NOT EXISTS Content (
   content_id INT AUTO_INCREMENT PRIMARY KEY,
   upload_date datetime NOT NULL,
   update_date datetime NOT NULL,
@@ -92,17 +92,17 @@ CREATE TABLE Content (
   FOREIGN KEY(course_id) references Course(course_id)
  );
 
-CREATE TABLE Discount (
+CREATE TABLE IF NOT EXISTS Discount (
      discount_id INT AUTO_INCREMENT PRIMARY KEY,
-     discount_name VARCHAR(30),
+     discount_name VARCHAR(32),
      discount_rate DECIMAL(5,2) NOT NULL DEFAULT 0,
      start_date DATETIME,
      end_date DATETIME
  );
 
-CREATE TABLE Payment ( 
+CREATE TABLE IF NOT EXISTS Payment ( 
      payment_id INT AUTO_INCREMENT PRIMARY KEY,
-     payment_method VARCHAR(15) NOT NULL,
+     payment_method VARCHAR(16) NOT NULL,
      due_date DATETIME NOT NULL,
      price INT NOT NULL,
      course_id INT,
@@ -112,34 +112,57 @@ CREATE TABLE Payment (
  );
 
 -- Inserting data into User table
-INSERT INTO User (first_name, last_name, email, date_of_birth, date_of_creation, last_loggedIn)
+INSERT INTO User (first_name, last_name, account_type, email, date_of_birth, date_of_creation, last_loggedIn)
 VALUES 
-  ('John', 'Doe', 'john.doe@example.com', '1990-01-15 12:00:00', '2022-01-01 08:00:00', '2022-01-05 15:30:00'),
-  ('Jane', 'Smith', 'jane.smith@example.com', '1985-05-22 10:30:00', '2022-01-02 09:15:00', '2022-01-06 14:45:00'),
-  ('Michael', 'Johnson', 'michael.j@example.com', '1992-08-10 15:45:00', '2022-01-03 13:30:00', '2022-01-07 11:00:00'),
-  ('Emily', 'Williams', 'emily.w@example.com', '1988-11-05 08:20:00', '2022-01-04 17:45:00', '2022-01-08 10:20:00'),
-  ('Sophia', 'Anderson', 'sophia.a@example.com', '1995-07-18 14:10:00', '2022-01-05 09:30:00', '2022-01-09 12:45:00'),
-  ('Adam', 'Brown', 'adam.b@example.com', '1993-02-28 16:45:00', '2022-01-10 11:15:00', '2022-01-10 16:30:00'),
-  ('Mia', 'Miller', 'mia.m@example.com', '1997-09-20 11:00:00', '2022-01-11 14:00:00', '2022-01-11 15:45:00'),
-  ('Ethan', 'Clark', 'ethan.c@example.com', '1991-12-12 13:15:00', '2022-01-12 08:30:00', '2022-01-12 12:15:00'),
-  ('Ava', 'Davis', 'ava.d@example.com', '1994-05-07 09:00:00', '2022-01-13 10:45:00', '2022-01-13 14:30:00'),
-  ('Oliver', 'Garcia', 'oliver.g@example.com', '1987-03-26 14:30:00', '2022-01-14 12:00:00', '2022-01-14 16:15:00'),
-  ('Amelia', 'Hill', 'amelia.h@example.com', '1996-10-15 10:15:00', '2022-01-15 15:45:00', '2022-01-15 17:30:00'),
-  ('Lucas', 'Lee', 'lucas.l@example.com', '1983-06-08 08:30:00', '2022-01-16 13:00:00', '2022-01-16 14:45:00'),
-  ('Ella', 'Nelson', 'ella.n@example.com', '1998-07-22 12:45:00', '2022-01-17 09:30:00', '2022-01-17 11:15:00'),
-  ('Jackson', 'Owens', 'jackson.o@example.com', '1989-09-01 09:30:00', '2022-01-18 10:45:00', '2022-01-18 12:30:00'),
-  ('Avery', 'Evans', 'avery.e@example.com', '1990-04-14 11:45:00', '2022-01-19 14:15:00', '2022-01-19 16:00:00');
+  ('John', 'Doe', 'admin', 'john.doe@example.com', '1990-01-15 12:00:00', '2022-01-01 08:00:00', '2022-01-05 15:30:00'),
+  ('Jane', 'Smith', 'student', 'jane.smith@example.com', '2006-01-01 10:30:00', '2022-01-02 09:15:00', '2022-01-06 14:45:00'),
+  ('Michael', 'Johnson', 'student' ,'michael.j@example.com', '1997-01-01 15:45:00', '2022-01-03 13:30:00', '2022-01-07 11:00:00'),
+  ('Emily', 'Williams', 'student', 'emily.w@example.com', '1994-01-01 08:20:00', '2022-01-04 17:45:00', '2022-01-08 10:20:00'),
+  ('Sophia', 'Anderson', 'student', 'sophia.a@example.com', '1997-01-01 14:10:00', '2022-01-05 09:30:00', '2022-01-09 12:45:00'),
+  ('Adam', 'Brown', 'student', 'adam.b@example.com', '1995-01-01 16:45:00', '2022-01-10 11:15:00', '2022-01-10 16:30:00'),
+  ('Mia', 'Miller', 'student', 'mia.m@example.com', '2003-01-01 11:00:00', '2022-01-11 14:00:00', '2022-01-11 15:45:00'),
+  ('Ethan', 'Clark', 'student', 'ethan.c@example.com', '1997-01-01 13:15:00', '2022-01-12 08:30:00', '2022-01-12 12:15:00'),
+  ('Ava', 'Davis', 'student', 'ava.d@example.com', '1994-01-01 09:00:00', '2022-01-13 10:45:00', '2022-01-13 14:30:00'),
+  ('Oliver', 'Garcia', 'student', 'oliver.g@example.com', '1997-01-01 14:30:00', '2022-01-14 12:00:00', '2022-01-14 16:15:00'),
+  ('Amelia', 'Hill', 'student', 'amelia.h@example.com', '1996-01-01 10:15:00', '2022-01-15 15:45:00', '2022-01-15 17:30:00'),
+  ('Lucas', 'Lee', 'student', 'lucas.l@example.com', '1997-01-01 08:30:00', '2022-01-16 13:00:00', '2022-01-16 14:45:00'),
+  ('Emma', 'Smith', 'student', 'emma.smith@example.com', '2004-01-01 00:00:00', '2022-01-22 08:00:00', '2022-01-22 12:00:00'),
+  ('James', 'Johnson', 'student', 'james.johnson@example.com', '1997-01-01 00:00:00', '2022-01-20 08:00:00', '2022-01-20 12:00:00'),
+  ('Sophia', 'Brown', 'student', 'sophia.brown@example.com', '1995-01-01 00:00:00', '2022-01-26 08:00:00', '2022-01-26 12:00:00'),
+  ('Oliver', 'Davis', 'student', 'oliver.davis@example.com', '1994-01-01 00:00:00', '2022-01-21 08:00:00', '2022-01-21 12:00:00'),
+  ('Ava', 'Miller', 'student', 'ava.miller@example.com', '1997-01-01 00:00:00', '2022-01-27 08:00:00', '2022-01-27 12:00:00'),
+  ('Liam', 'Wilson', 'student', 'liam.wilson@example.com', '1996-01-01 00:00:00', '2022-01-25 08:00:00', '2022-01-25 12:00:00'),
+  ('Isabella', 'Moore', 'student', 'isabella.moore@example.com', '1994-01-01 00:00:00', '2022-01-23 08:00:00', '2022-01-23 12:00:00'),
+  ('Mia', 'Taylor', 'student', 'mia.taylor@example.com', '1997-01-01 00:00:00', '2022-01-24 08:00:00', '2022-01-24 12:00:00'),
+  ('Ella', 'Nelson', 'instructor', 'ella.n@example.com', '1998-07-22 12:45:00', '2022-01-17 09:30:00', '2022-01-17 11:15:00'),
+  ('Jackson', 'Owens', 'instructor', 'jackson.o@example.com', '1989-09-01 09:30:00', '2022-01-18 10:45:00', '2022-01-18 12:30:00'),
+  ('Avery', 'Evans', 'instructor', 'avery.e@example.com', '1990-04-14 11:45:00', '2022-01-19 14:15:00', '2022-01-19 16:00:00');
+
 
 -- Inserting data into Instructor table with computer science-related specializations
 INSERT INTO Instructor (specialization, inst_id)
-VALUES 
-  ('Software Development', 1),
-  ('Data Structures and Algorithms', 2),
-  ('Artificial Intelligence', 3),
-  ('Database Systems', 4);
+SELECT 'Software Development', user_id
+FROM User
+WHERE account_type = 'instructor' AND first_name = 'Ella';
+
+INSERT INTO Instructor (specialization, inst_id)
+SELECT 'Data Structures and Algorithms', user_id
+FROM User
+WHERE account_type = 'instructor' AND first_name = 'Jackson';
+
+INSERT INTO Instructor (specialization, inst_id)
+SELECT 'Web Development', user_id
+FROM User
+WHERE account_type = 'instructor' AND first_name = 'Avery';
+
+
 -- Inserting data into Student table
 INSERT INTO Student (std_id)
 VALUES 
+  (2),
+  (3),
+  (4),
+  (5),
   (5),
   (6),
   (7),
@@ -149,50 +172,73 @@ VALUES
   (11),
   (12),
   (13),
-  (14);
+  (14),
+  (15),
+  (16),
+  (17),
+  (18),
+  (19),
+  (20);
+  
 
 -- Inserting data into Admin table
 INSERT INTO Admin (admin_id)
 VALUES 
-  (15);
+  (1);
 
 -- Inserting data into Course table for Computer Science students
 INSERT INTO Course (title, description, max_participants, inst_id)
 VALUES 
-  ('Introduction to Programming', 'Learn the basics of programming and problem-solving using various programming languages. Covers fundamental concepts like variables, loops, and functions.', 10, 1),
-  ('Advanced Data Structures', 'Explore complex data structures such as trees, graphs, and hash tables. Learn algorithms for searching and sorting.', 15, 2),
-  ('Algorithm Design', 'Design efficient algorithms for problem-solving. Covers dynamic programming, greedy algorithms, and divide-and-conquer.', 8, 3),
-  ('Machine Learning Fundamentals', 'Introduction to machine learning concepts and algorithms. Explore supervised and unsupervised learning techniques.', 9, 4),
-  ('Database Management Systems', 'Fundamentals of designing and managing database systems. Learn SQL, normalization, and database optimization.', 4, 3),
-  ('Computer Networks', 'Understanding the principles of computer networks, including protocols, network layers, and network security.', 5, 4),
-  ('Artificial Intelligence', 'Introduction to artificial intelligence and its applications. Covers knowledge representation, reasoning, and machine perception.', 10, 1),
-  ('Software Engineering', 'Principles of software development and engineering practices. Learn about the software lifecycle, testing, and version control.', 15, 3),
-  ('Operating Systems', 'Fundamentals of operating systems. Explore process management, memory allocation, and file systems.', 7, 2),
-  ('Web Development', 'Building web applications using HTML, CSS, and JavaScript. Covers front-end and back-end development.', 6, 3),
-  ('Cybersecurity Basics', 'Introduction to cybersecurity concepts. Learn about encryption, network security, and ethical hacking techniques.', 12, 4),
-  ('Computer Graphics', 'Creating computer-generated imagery and animations. Covers 2D and 3D graphics, rendering, and shading techniques.', 10, 1),
-  ('Data Mining', 'Extracting knowledge from large datasets. Learn data preprocessing, pattern recognition, and clustering algorithms.', 13, 2),
-  ('Cloud Computing', 'Introduction to cloud technologies and services. Explore cloud deployment models and platforms.', 8, 1),
-  ('Computer Vision', 'Understanding visual information from the world. Covers image processing, object recognition, and computer vision applications.', 11, 2);
+  ('Introduction to Programming', 'Embark on a journey into the world of programming with our Introduction to Programming course. 
+  This beginner-friendly program is crafted for those stepping into the realm of coding for the first time. Covering essential concepts such as variables, control structures, and functions,
+  this course provides a solid foundation in programming logic. 
+  Delve into hands-on exercises and projects designed to reinforce your understanding of key programming principles. 
+  Whether you are looking to kickstart a career in software development or gain a valuable skill set, 
+  this course is the gateway to unlocking the fascinating universe of coding.', 10, 21),
+  ('Data Structures and Algorithm', 'Dive into the core of computer science with our Data Structures and Algorithms course. 
+  This advanced program is tailored for developers seeking to enhance their problem-solving skills and optimize code efficiency. 
+  Explore a comprehensive range of data structures, from arrays to trees, and algorithms such as sorting and searching. 
+  Learn how to analyze algorithmic complexities and make informed design choices. 
+  Through practical exercises and real-world applications, you will gain proficiency in creating scalable and efficient solutions. 
+  Elevate your programming prowess and be well-equipped to tackle complex challenges in software development 
+  with this in-depth exploration of data structures and algorithms.', 15, 22),
+  ('Java', 'Explore the fundamentals of Java programming with our comprehensive course. 
+  From basic syntax to advanced concepts like multithreading and exception handling, 
+  this course is designed for beginners and aspiring developers. 
+  Learn to design and implement Java applications, work with object-oriented principles, and gain hands-on experience with real-world projects. 
+  Whether youre aiming to kickstart your programming journey or enhance your skills, this Java course offers a solid 
+  foundation for building robust and scalable applications.', 8, 21),
+  ('Web Development', 'Embark on a journey into the dynamic world of Web Development with our comprehensive course. 
+  This program is crafted for both beginners and intermediate learners, providing a solid foundation in front-end and back-end technologies.
+  Dive into HTML, CSS, and JavaScript to build responsive and interactive user interfaces. 
+  Explore server-side scripting with frameworks like Node.js and Express, coupled with database management using technologies like MongoDB.
+  Delve into the intricacies of RESTful API design and asynchronous programming. 
+  Through hands-on projects, you will develop the skills needed to create modern, scalable web applications. 
+  Whether you aspire to be a full-stack developer or build your web presence, this course equips you with the tools 
+  for success in the ever-evolving field of Web Development.', 9, 23);
 
--- Inserting data into Enrollment table for Computer Science students
+-- -- Inserting data into Enrollment table for Computer Science students
 INSERT INTO Enrollment (std_id, course_id)
 VALUES 
-  (5, 1),
-  (6, 2),
-  (7, 3),
-  (8, 4),
-  (9, 5),
-  (10, 6),
-  (11, 7),
-  (12, 8),
-  (13, 9),
-  (14, 10),
-  (6, 11),
-  (5, 12),
-  (8, 13),
-  (10, 14),
-  (9, 15);
+	(2, 1),
+	(3, 1),
+	(4, 1),
+	(5, 1),
+	(6, 2),
+	(7, 2),
+	(8, 2),
+	(9, 2),
+	(10, 3),
+	(11, 3),
+	(12, 3),
+	(13, 3),
+    (14, 3),
+    (15, 3),
+	(16, 4),
+	(17, 4),
+	(18, 4),
+	(19, 4),
+	(20, 4);
  -- Inserting data into Discount table
 INSERT INTO Discount (discount_name, discount_rate, start_date, end_date)
 VALUES 

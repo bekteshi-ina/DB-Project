@@ -195,6 +195,7 @@ VALUES
   Delve into hands-on exercises and projects designed to reinforce your understanding of key programming principles. 
   Whether you are looking to kickstart a career in software development or gain a valuable skill set, 
   this course is the gateway to unlocking the fascinating universe of coding.', 10, 21),
+
   ('Data Structures and Algorithm', 'Dive into the core of computer science with our Data Structures and Algorithms course. 
   This advanced program is tailored for developers seeking to enhance their problem-solving skills and optimize code efficiency. 
   Explore a comprehensive range of data structures, from arrays to trees, and algorithms such as sorting and searching. 
@@ -202,12 +203,14 @@ VALUES
   Through practical exercises and real-world applications, you will gain proficiency in creating scalable and efficient solutions. 
   Elevate your programming prowess and be well-equipped to tackle complex challenges in software development 
   with this in-depth exploration of data structures and algorithms.', 15, 22),
+
   ('Java', 'Explore the fundamentals of Java programming with our comprehensive course. 
   From basic syntax to advanced concepts like multithreading and exception handling, 
   this course is designed for beginners and aspiring developers. 
   Learn to design and implement Java applications, work with object-oriented principles, and gain hands-on experience with real-world projects. 
   Whether youre aiming to kickstart your programming journey or enhance your skills, this Java course offers a solid 
   foundation for building robust and scalable applications.', 8, 21),
+
   ('Web Development', 'Embark on a journey into the dynamic world of Web Development with our comprehensive course. 
   This program is crafted for both beginners and intermediate learners, providing a solid foundation in front-end and back-end technologies.
   Dive into HTML, CSS, and JavaScript to build responsive and interactive user interfaces. 
@@ -232,8 +235,8 @@ VALUES
 	(11, 3),
 	(12, 3),
 	(13, 3),
-    (14, 3),
-    (15, 3),
+  (14, 3),
+  (15, 3),
 	(16, 4),
 	(17, 4),
 	(18, 4),
@@ -242,124 +245,95 @@ VALUES
  -- Inserting data into Discount table
 INSERT INTO Discount (discount_name, discount_rate, start_date, end_date)
 VALUES 
-  ('Early Bird Discount', 0.15, '2022-01-01 00:00:00', '2022-02-01 00:00:00'),
   ('Student Discount', 0.10, '2022-01-15 00:00:00', '2022-02-15 00:00:00'),
-  ('Group Discount', 0.20, '2022-02-01 00:00:00', '2022-03-01 00:00:00'),
   ('Holiday Discount', 0.25, '2022-12-01 00:00:00', '2022-12-31 00:00:00'),
   ('Summer Sale', 0.30, '2022-06-01 00:00:00', '2022-08-31 00:00:00');
 
 -- Inserting data into Payment table
 INSERT INTO Payment (payment_method, due_date, price, course_id, discount_id)
 VALUES 
-  ('Credit Card', '2022-01-20 00:00:00', 500, 1, 1),
-  ('PayPal', '2022-02-10 00:00:00', 450, 2, 2),
-  ('Bank Transfer', '2022-03-05 00:00:00', 600, 3, 3),
-  ('Credit Card', '2022-04-15 00:00:00', 350, 4, 4),
-  ('PayPal', '2022-05-20 00:00:00', 700, 5, 5),
-  ('Bank Transfer', '2022-06-10 00:00:00', 550, 6, 1),
-  ('Credit Card', '2022-07-05 00:00:00', 400, 7, 2),
-  ('PayPal', '2022-08-15 00:00:00', 650, 8, 3),
-  ('Bank Transfer', '2022-09-20 00:00:00', 500, 9, 4),
-  ('Credit Card', '2022-10-10 00:00:00', 350, 10, 5),
-  ('PayPal', '2022-11-05 00:00:00', 600, 11, 1),
-  ('Bank Transfer', '2022-12-15 00:00:00', 450, 12, 2),
-  ('Credit Card', '2023-01-20 00:00:00', 200, 13, 3),
-  ('PayPal', '2023-02-10 00:00:00', 550, 14, 4),
-  ('Bank Transfer', '2023-03-05 00:00:00', 400, 15, 5);
+  ('Cash', '2022-01-20 00:00:00', 500, 1, 1),
+  ('Bank Transfer', '2022-03-05 00:00:00', 600, 2, 3),
+  ('Cash', '2022-04-15 00:00:00', 350, 3, 2),
+  ('Bank Transfer', '2022-06-10 00:00:00', 550, 4, 1);
 
 -- Inserting data into Certification table
 INSERT INTO Certification (course_id, std_id, discription, ranking)
 VALUES 
-  (5, 1, 'Successfully completed the Introduction to Programming course.', 4.8),
-  (6, 2, 'Achieved excellence in Advanced Data Structures.', 4.9),
-  (7, 3, 'Outstanding performance in Algorithm Design.', 4.7),
-  (8, 4, 'Received certification in Machine Learning Fundamentals.', 4.5),
-  (9, 5, 'Certified in Database Management Systems.', 4.6),
-  (10, 6, 'Completed Computer Networks with high distinction.', 4.8),
-  (11, 7, 'Accomplished Artificial Intelligence with top honors.', 4.9),
-  (12, 8, 'Received certification in Software Engineering.', 4.7),
-  (13, 9, 'Achieved excellence in Operating Systems.', 4.5),
-  (14, 10, 'Certified in Web Development.', 4.6),
-  (6, 11, 'Outstanding performance in Cybersecurity Basics.', 4.8),
-  (5, 12, 'Received certification in Computer Graphics.', 4.9),
-  (8, 13, 'Completed Data Mining with high distinction.', 4.7),
-  (10, 14, 'Accomplished Cloud Computing with top honors.', 4.5),
-  (9, 15, 'Certified in Computer Vision.', 4.6);
+  (1, 2, 'Introduction to Programming', 4.8),
+  (1, 3, 'Introduction to Programming', 4.9),
+  (1, 4, 'Introduction to Programming', 4.7),
+  (1, 5, 'Introduction to Programming', 4.5),
+  (2, 6, 'Data Structures and Algorithm', 4.6),
+  (2, 7, 'Data Structures and Algorithm', 4.8),
+  (2, 8, 'Data Structures and Algorithm', 4.9),
+  (2, 9, 'Data Structures and Algorithm', 4.7),
+  (3, 10, 'Java', 4.5),
+  (3, 11, 'Java', 4.6),
+  (3, 12, 'Java', 4.8),
+  (3, 13, 'Java', 4.9),
+  (3, 14, 'Java', 4.7),
+  (3, 15, 'Java', 4.5),
+  (4, 16, 'Web Development', 4.6),
+  (4, 17, 'Web Development', 5.0),
+  (4, 18, 'Web Development', 4.1),
+  (4, 19, 'Web Development', 4.5),
+  (4, 20, 'Web Development', 4.9);
 
 -- Inserting data into Assignment table
 INSERT INTO Assignment (deadline, assig_info, upload_date, course_id)
 VALUES 
-  ('2022-01-25 23:59:59', 'Assigment file1.txt', '2022-01-15 12:00:00', 1),
-  ('2022-02-15 23:59:59', 'Assigment file2.txt', '2022-02-01 10:00:00', 2),
-  ('2022-03-10 23:59:59', 'Assigment file3.txt', '2022-02-15 14:30:00', 3),
-  ('2022-04-05 23:59:59', 'Assigment file4.txt', '2022-03-01 11:45:00', 4),
-  ('2022-05-15 23:59:59', 'Assigment file5.txt', '2022-04-01 09:15:00', 5),
-  ('2022-06-20 23:59:59', 'Assigment file6.txt', '2022-05-01 13:30:00', 6),
-  ('2022-07-10 23:59:59', 'Assigment file7.txt', '2022-06-01 15:45:00', 7),
-  ('2022-08-05 23:59:59', 'Assigment file8.txt', '2022-07-01 12:00:00', 8),
-  ('2022-09-15 23:59:59', 'Assigment file9.txt', '2022-08-01 08:30:00', 9),
-  ('2022-10-10 23:59:59', 'Assigment file10.txt', '2022-09-01 10:45:00', 10),
-  ('2022-11-20 23:59:59', 'Assigment file11.txt', '2022-10-01 14:00:00', 11),
-  ('2022-12-15 23:59:59', 'Assigment file12.txt', '2022-11-01 16:30:00', 12),
-  ('2023-01-25 23:59:59', 'Assigment file13.txt', '2022-12-01 09:30:00', 13),
-  ('2023-02-15 23:59:59', 'Assigment file14.txt', '2023-01-01 11:15:00', 14),
-  ('2023-03-10 23:59:59', 'Assigment file15.txt', '2023-02-01 14:30:00', 15);
-
+  ('2022-06-15 23:59:59', 'Assigment file1.txt', '2022-01-15 12:00:00', 1),
+  ('2022-02-25 23:59:59', 'Assigment file2.txt', '2022-02-01 10:00:00', 2),
+  ('2022-03-20 23:59:59', 'Assigment file3.txt', '2022-02-15 14:30:00', 3),
+  ('2022-02-23 23:59:59', 'Assigment file4.txt', '2022-03-01 11:45:00', 4),
+  ('2022-03-15 23:59:59', 'Assigment file5.txt', '2022-04-01 09:15:00', 4),
+  ('2022-06-05 23:59:59', 'Assigment file6.txt', '2022-05-01 13:30:00', 3),
+  ('2022-03-10 23:59:59', 'Assigment file7.txt', '2022-06-01 15:45:00', 2),
+  ('2022-07-05 23:59:59', 'Assigment file8.txt', '2022-07-01 12:00:00', 1);
+  
 -- Inserting data into Submission table
 INSERT INTO Submission (submission_date, submission_file, std_id, assig_id)
 VALUES 
-  ('2022-01-25 23:55:00', 'Submitted file1.txt', 5, 1),
-  ('2022-02-15 23:50:00', 'Submitted file2.txt', 6, 2),
-  ('2022-03-10 23:45:00', 'Submitted file3.txt', 7, 3),
-  ('2022-04-05 23:40:00', 'Submitted file4.txt', 8, 4),
-  ('2022-05-15 23:35:00', 'Submitted file5.txt', 9, 5),
-  ('2022-06-20 23:30:00', 'Submitted file6.txt', 10, 6),
-  ('2022-07-10 23:25:00', 'Submitted file7.txt', 11, 7),
-  ('2022-08-05 23:20:00', 'Submitted file8.txt', 12, 8),
-  ('2022-09-15 23:15:00', 'Submitted file9.txt', 13, 9),
-  ('2022-10-10 23:10:00', 'Submitted file10.txt', 14, 10),
-  ('2022-11-20 23:05:00', 'Submitted file11.txt', 6, 11),
-  ('2022-12-15 23:00:00', 'Submitted file12.txt', 5, 12),
-  ('2023-01-25 22:55:00', 'Submitted file13.txt', 8, 13),
-  ('2023-02-15 22:50:00', 'Submitted file14.txt', 10, 14),
-  ('2023-03-10 22:45:00', 'Submitted file15.txt', 9, 15);
+  ('2022-06-12 23:55:00', 'Submitted file1.txt', 5, 1),
+  ('2022-02-23 23:50:00', 'Submitted file2.txt', 6, 2),
+  ('2022-03-19 23:45:00', 'Submitted file3.txt', 7, 3),
+  ('2022-02-21 23:40:00', 'Submitted file4.txt', 8, 4),
+  ('2022-03-14 23:35:00', 'Submitted file5.txt', 9, 5),
+  ('2022-06-01 23:30:00', 'Submitted file6.txt', 10, 6),
+  ('2022-03-09 23:25:00', 'Submitted file7.txt', 11, 7),
+  ('2022-07-03 23:20:00', 'Submitted file8.txt', 12, 8),
+  ('2022-06-04 23:15:00', 'Submitted file9.txt', 13, 6),
+  ('2022-02-24 23:10:00', 'Submitted file10.txt', 14, 2),
+  ('2022-02-21 23:05:00', 'Submitted file11.txt', 6, 4),
+  ('2022-03-13 23:00:00', 'Submitted file12.txt', 2, 5),
+  ('2023-06-04 22:55:00', 'Submitted file13.txt', 8, 6),
+  ('2023-07-04 22:50:00', 'Submitted file14.txt', 10, 8),
+  ('2023-02-23 22:45:00', 'Submitted file15.txt', 20, 2);
 
 -- Inserting data into Schedule table
 INSERT INTO Schedule (start_date, end_date, nr_of_sessions, session_duration, course_id)
 VALUES 
-  ('2022-02-10', '2022-03-10', 10, '02:00:00', 1),
+  ('2022-06-10', '2022-08-10', 10, '02:00:00', 1),
   ('2022-02-12', '2022-04-12', 12, '01:30:00', 2),
-  ('2022-02-15', '2022-03-15', 8, '02:15:00', 3),
-  ('2022-02-18', '2022-05-18', 15, '01:45:00', 4),
-  ('2022-02-20', '2022-03-20', 10, '02:30:00', 5),
-  ('2022-02-22', '2022-03-22', 14, '01:45:00', 6),
-  ('2022-02-25', '2022-04-25', 12, '02:15:00', 7),
-  ('2022-02-28', '2022-03-28', 9, '02:30:00', 8),
-  ('2022-03-02', '2022-03-02', 11, '02:00:00', 9),
-  ('2022-03-05', '2022-04-05', 8, '02:15:00', 10),
-  ('2022-03-08', '2022-03-08', 10, '01:45:00', 11),
-  ('2022-03-10', '2022-05-10', 12, '02:30:00', 12),
-  ('2022-03-12', '2022-03-12', 9, '02:00:00', 13),
-  ('2022-03-15', '2022-04-15', 14, '02:15:00', 14),
-  ('2022-03-18', '2022-03-18', 10, '02:30:00', 15);
+  ('2022-03-15', '2022-06-15', 8, '02:30:00', 3),
+  ('2022-02-18', '2022-04-18', 15, '01:00:00', 4);
 
 -- Inserting data into Content table
 INSERT INTO Content (upload_date, update_date, content_description, course_id)
 VALUES 
-  ('2022-02-10 09:00:00', '2022-02-11 15:30:00', 'Content file1.txt', 1),
-  ('2022-02-12 10:30:00', '2022-02-14 09:15:00', 'Content file1.txt', 3),
-  ('2022-02-18 08:20:00', '2022-02-20 17:45:00', 'Content file1.txt', 4),
-  ('2022-02-22 14:10:00', '2022-02-24 09:30:00', 'Content file1.txt', 5),
-  ('2022-02-25 16:45:00', '2022-02-27 15:45:00', 'Content file1.txt', 6),
-  ('2022-02-28 13:15:00', '2022-03-02 12:15:00', 'Content file1.txt', 7),
-  ('2022-03-02 09:00:00', '2022-03-04 10:45:00', 'Content file1.txt', 8),
-  ('2022-03-05 10:45:00', '2022-03-07 14:30:00', 'Content file1.txt', 9),
-  ('2022-03-08 08:30:00', '2022-03-10 10:45:00', 'Content file1.txt', 10),
-  ('2022-03-10 16:30:00', '2022-03-12 14:45:00', 'Content file1.txt', 11),
-  ('2022-03-12 12:00:00', '2022-03-14 16:15:00', 'Content file1.txt', 12),
-  ('2022-03-14 17:30:00', '2022-03-16 13:00:00', 'Content file1.txt', 13),
-  ('2022-03-16 14:15:00', '2022-03-18 12:45:00', 'Content file1.txt', 14),
-  ('2022-03-18 16:00:00', '2022-03-20 09:30:00', 'Content file1.txt', 15);
+  ('2022-06-11 09:00:00', '2022-07-08 15:30:00', 'Content file1.txt', 1),
+  ('2022-02-13 10:30:00', '2022-02-13 09:15:00', 'Content file1.txt', 2),
+  ('2022-03-18 08:20:00', '2022-03-18 17:45:00', 'Content file1.txt', 3),
+  ('2022-02-22 14:10:00', '2022-02-24 09:30:00', 'Content file1.txt', 4),
+  ('2022-05-25 16:45:00', '2022-05-25 15:45:00', 'Content file1.txt', 3),
+  ('2022-03-28 13:15:00', '2022-03-28 12:15:00', 'Content file1.txt', 4),
+  ('2022-03-04 09:00:00', '2022-03-04 10:45:00', 'Content file1.txt', 2),
+  ('2022-07-05 10:45:00', '2022-08-07 14:30:00', 'Content file1.txt', 1),
+  ('2022-08-08 08:30:00', '2022-08-08 10:45:00', 'Content file1.txt', 1),
+  ('2022-03-26 16:30:00', '2022-03-26 14:45:00', 'Content file1.txt', 3),
+  ('2022-03-25 12:00:00', '2022-03-25 16:15:00', 'Content file1.txt', 2),
+  ('2022-03-14 17:30:00', '2022-03-14 13:00:00', 'Content file1.txt', 4);
 
 
 

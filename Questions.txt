@@ -1,40 +1,80 @@
  
 SELECT Operations:
 
+Ina:
+
 1.Retrieve the names and email addresses of all instructors.
 2.Find the courses with their descriptions that have more than 5 enrollments.
+
+Imelda:
+
 3.List the submission dates and file names of assignments submitted by a specific student.
 4.Get the start and end dates of courses along with the number of sessions.
+
+Irisa:
+
 5.Find the names of students who have not enrolled in any courses.
 6.Retrieve the course title and all their content_descriptions.
+
+Matias:
+
 7.List the students full names, that have a certification raking higher than 4.5.
 8.Get the course title and inst name for the course that has the min enrollment nr.
+
+Mikaela:
+
 9.Find the courses title and final price after the price of the discount rate has
 been applied for disccount >= 25%;
 10.Select the user how has been logged in the last.
 
 UPDATE Operations:
 
-1.Update the specialization of an instructor to 'Database SQL'
-Modify the enrollment of a student for a particular course.
-Change the submission date of a specific assignment.
-Update the description of a course with a new content description.
-Modify the due date of a payment for a specific course.
-Update the ranking of a certification for a specific student.
-Change the start and end dates of a course in the schedule.
-Modify the discount rate for a specific discount.
-Update the email address of a specific user.
-Change the session duration for a course in the schedule.
+Ina:
+
+1.Update the instructor of a specific course. 
+2.Modify the payment to is paid for a particular enrollment.
+
+Imelda:
+
+3.Change the deadline of a specific assignment.
+4.Update the description of a course with a new course description.
+
+Irisa:
+
+5.Modify the due date of a payment for a specific course.
+6.Modify the price of a specific course.
+
+Matias:
+
+7.Change the start and end dates of a course in the schedule.
+8.Modify the discount rate for a specific discount.
+
+Mikaela:
+
+9.Update the email address of a specific user.
+10.Change the session duration for a course in the schedule.
 
 DELETE Operations:
 
-Delete a specific enrollment record for a student.
-Remove an assignment from the database.
-Delete a specific payment record.
-Remove a course from the database along with its related records.
-Delete a specific instructor from the database.
-Remove a certification record for a student.
-Delete a specific discount from the database.
-Remove a submission record for an assignment.
-Delete a specific content record for a course.
-Remove a user record from the database.
+Ina:
+
+1.Delete a specific enrollment record for a student.
+2.Remove an assignment from the database.
+
+Imelda:
+
+3.Delete a specific discount.
+4.Remove a course from the database along with its related records.
+
+Irisa:
+
+5.Delete a specific instructor from the database.
+6.Remove a student with a specific name.
+
+Matias:
+
+7.Delete a specific content record for a course.
+8.Remove a user record from the database.
+
+
+!!!!DO VISHENI BUKUR TE ENJTE!!!!

@@ -1,11 +1,13 @@
 SELECTION
 
 5.Find the names of students who have not enrolled in any courses.
+
 6.Retrieve the course title and all their content_descriptions.
 
 UPDATE
 
 5.Modify the due date of a payment for a specific course.
+
 6.Modify the price of a specific course.
 
 DELETE

@@ -1,0 +1,101 @@
+SELECT:
+
+3.List the submission dates and file names of assignments submitted by a specific student.
+
+SELECT submission_date , assig_info
+FROM assignment INNER JOIN submission
+ON assignment.assig_id = submission.assig_id
+WHERE std_id = 16;
+
+4.Get the start and end dates of courses along with the number of sessions.
+
+SELECT title,start_date,end_date,nr_of_sessions
+FROM schedule INNER JOIN course
+ON schedule.course_id = course.course_id;
+
+UPDATE:
+
+3.Change the deadline of a specific assignment.
+UPDATE assigment
+SET deadline = "2022-04-20 00:00:00"
+WHERE assig_id = 4;
+
+4.Update the description of a course with a new course description.
+
+UPDATE course
+SET description = "Welcome to our comprehensive Web Development Course, 
+where innovation meets instruction to transform you into a proficient web developer. 
+This course is meticulously designed for both beginners and intermediate learners, 
+offering a dynamic and hands-on approach to mastering the intricacies of web development."
+WHERE course_id = 4;
+
+
+
+DELETE:
+3.Delete a specific discount.
+DELETE FROM discount
+WHERE discount_id = 2
+
+-- normalisht qe te payment foreign key i dicount do behet ON DELETE SET NULL OSE CASCADE
+
+4.Remove a course from the database along with its related records.
+
+DELETE FROM enrollment
+WHERE course.id = course.id AND course.id = 2;
+
+DELETE FROM ceftification
+WHERE course.id = course.id AND course.id = 2;
+ 
+DELETE FROM assogment
+WHERE course.id = course.id AND course.id = 2;
+
+DELETE FROM schedule
+WHERE course.id = course.id AND course.id = 2;
+
+DELETE FROM content
+WHERE course.id = course.id AND course.id = 2;
+
+DELETE FROM payment
+WHERE course.id = course.id AND course.id = 2;
+
+-- delete from the main table
+DELETE FROM course
+WHERE course.id = course.id AND course.id = 2;
+
+-- Normalisht te te gjith foreign keys qe tabelat qe lidhen me course do shtohet 
+-- ON DELETE SET CASCADE
+
+
+--Pjesa e trigger
+ALTER instructor
+ADD COULUM hourly_paid INT;
+
+ALTER instructor
+ADD COULUM hourly_paid INT;
+
+UPDATE instructor
+SET hourly_paid = 12
+WHERE inst_id = 21;
+
+UPDATE instructor
+SET hourly_paid = 12
+WHERE inst_id = 22;
+
+UPDATE instructor
+SET hourly_paid = 12
+WHERE inst_id = 23;
+
+
+CREATE TRIGGER b_hp_update
+BEFORE UPDATE ON instructor
+FOR EACH ROW
+SET NEW.salary = (NEW.hourky_paid * 2080)
+
+
+-- kJO ESHTE POTHUAJSE NJEOSJ ME NJE TE MATIASIT PO ME ERDHI NE MENDJE
+
+select u.first_name, u.last_name, s.std_id, c.certification_id, c.ranking
+from user u
+inner join student s on u.user_id = s.std_id
+inner join certification c on c.std_id = s.std_id
+where ranking > (select avg(ranking) from certification);

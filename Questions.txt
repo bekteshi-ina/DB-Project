@@ -1,0 +1,39 @@
+
+SELECT Operations:
+
+Retrieve the names and email addresses of all instructors.
+Find the courses with their descriptions that have more than 5 enrollments.
+List the submission dates and file names of assignments submitted by a specific student.
+Get the start and end dates of courses along with the number of sessions.
+Find the names of students who have not enrolled in any courses.
+Retrieve the content descriptions for a specific course.
+List the certifications along with the corresponding course titles.
+Get the total number of sessions for each course.
+Find the payment details for a specific course, including due date and price.
+Retrieve the discount details applicable between specific dates.
+
+UPDATE Operations:
+
+Update the specialization of an instructor to 'Machine Learning.'
+Modify the enrollment of a student for a particular course.
+Change the submission date of a specific assignment.
+Update the description of a course with a new content description.
+Modify the due date of a payment for a specific course.
+Update the ranking of a certification for a specific student.
+Change the start and end dates of a course in the schedule.
+Modify the discount rate for a specific discount.
+Update the email address of a specific user.
+Change the session duration for a course in the schedule.
+
+DELETE Operations:
+
+Delete a specific enrollment record for a student.
+Remove an assignment from the database.
+Delete a specific payment record.
+Remove a course from the database along with its related records.
+Delete a specific instructor from the database.
+Remove a certification record for a student.
+Delete a specific discount from the database.
+Remove a submission record for an assignment.
+Delete a specific content record for a course.
+Remove a user record from the database.

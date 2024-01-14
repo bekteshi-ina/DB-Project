@@ -1,0 +1,22 @@
+SELECT Operations:
+
+Ina:
+
+1.Retrieve the names and email addresses of all instructors.
+2.Find the courses with their descriptions that have more than 5 enrollments.
+
+
+UPDATE Operations:
+
+Ina:
+
+1.Update the instructor of a specific course. 
+2.Modify the payment to is paid for a particular enrollment.
+
+
+DELETE Operations:
+
+Ina:
+
+1.Delete a specific enrollment record for a student.
+2.Remove an assignment from the database.

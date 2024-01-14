@@ -1,16 +1,26 @@
 SELECT Operations:
 
-Ina:
-
 1.Retrieve the names and email addresses of all instructors.
-2.Find the courses with their descriptions that have more than 5 enrollments.
 
+SELECT CONCAT(first_name, " ", last_name) AS full_name, email FROM User 
+JOIN Instructor ON user_id = inst_id;
+
+--menyre tjeter zgjidhje
+--SELECT CONCAT(first_name, " ", last_name) AS full_name, email FROM User WHERE account_type = "instructor";
+
+2.Select the courses titles and their descriptions that have more than 5 enrollments(participants).
+
+SELECT title, COUNT(title) AS enrollments_per_course FROM Course 
+JOIN Enrollment ON Course.course_id = Enrollment.course_id
+JOIN Student ON Enrollment.std_id = Student.std_id
+GROUP BY title HAVING enrollments_per_course > 5;
 
 UPDATE Operations:
 
-Ina:
-
 1.Update the instructor of a specific course. 
+
+UPDATE Course SET inst_id = 22 WHERE course_id = 3;
+
 2.Modify the payment to is paid for a particular enrollment.
 
 

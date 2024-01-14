@@ -23,10 +23,22 @@ UPDATE Course SET inst_id = 22 WHERE course_id = 3;
 
 2.Modify the payment to is paid for a particular enrollment.
 
+UPDATE Enrollment SET is_paid = true WHERE std_id = 4 AND course_id = 1;
 
 DELETE Operations:
 
-Ina:
-
 1.Delete a specific enrollment record for a student.
-2.Remove an assignment from the database.
+
+DELETE FROM Enrollment WHERE std_id = 3;
+
+2.Delete all the assignments of the courses which have ended.
+
+DELETE FROM Assignment 
+WHERE assig_id IN (
+    SELECT * FROM (
+        SELECT assig_id  FROM Assignment
+        JOIN Course ON Assignment.course_id = Course.course_id
+        JOIN Schedule ON Course.course_id = Schedule.course_id
+        WHERE Schedule.end_date < NOW()
+    ) AS subquery
+);

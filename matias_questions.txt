@@ -1,0 +1,95 @@
+-- SELECT QUESTIOS
+
+-- 7.List the students full names, that have a certification raking higher than 4.5.
+
+SELECT CONCAT(first_name, ' ', last_name) AS student_name FROM certification c
+INNER JOIN user u 
+ON c.std_id = u.user_id AND c.ranking > 4.5;
+
+SELECT CONCAT(u.first_name, ' ', u.last_name) AS student_name
+FROM user u
+WHERE u.user_id IN (
+	SELECT  std_id
+    FROM certification c
+    WHERE c.ranking > 4.5
+);
+
+-- 8.Get the course title and inst name for the course that has the min enrollment nr.
+
+
+SELECT dt.course_id, dt.course_title, dt.instructor_name, MIN(dt.enrollmenet_count) as enrollments_nr
+FROM (
+    SELECT c.course_id, c.title AS course_title, CONCAT(u.first_name, ' ', u.last_name) AS instructor_name, COUNT(e.std_id) AS enrollmenet_count
+    FROM course c
+    INNER JOIN instructor i ON c.inst_id = i.inst_id
+    INNER JOIN user u ON i.inst_id = u.user_id
+    INNER JOIN enrollment e ON c.course_id = e.course_id
+    WHERE c.course_id IN (
+        SELECT course_id
+        FROM enrollment e
+        GROUP BY e.course_id
+        HAVING MIN(e.std_id) 
+    )
+    GROUP BY c.course_id
+) AS dt;
+
+
+
+WITH RankedEnrollments AS (
+    SELECT
+        dt.course_id,
+        dt.course_title,
+        dt.instructor_name,
+        dt.enrollment_count,
+        RANK() OVER (ORDER BY dt.enrollment_count) AS rnk
+    FROM (
+        SELECT
+            c.course_id,
+            c.title AS course_title,
+            CONCAT(u.first_name, ' ', u.last_name) AS instructor_name,
+            COUNT(e.std_id) AS enrollment_count
+        FROM
+            course c
+            INNER JOIN instructor i ON c.inst_id = i.inst_id
+            INNER JOIN user u ON i.inst_id = u.user_id
+            INNER JOIN enrollment e ON c.course_id = e.course_id
+        WHERE
+            c.course_id IN (
+                SELECT course_id
+                FROM enrollment e
+                GROUP BY e.course_id
+                HAVING MIN(e.std_id)
+            )
+        GROUP BY c.course_id
+    ) AS dt
+)
+SELECT course_id, course_title, instructor_name, enrollment_count
+FROM RankedEnrollments
+WHERE rnk = 1;
+
+-- UPDATE QUESTIONS
+
+-- 7.Change the start and end dates of a course in the schedule.
+
+UPDATE schedule
+SET start_date = '2022-06-08', end_date = '2022-08-08'
+WHERE course_id = 1;
+
+
+-- 8.Modify the discount rate for a specific discount.
+
+UPDATE discount
+SET discount_rate = 0.40
+WHERE discount_name = 'Summer Sale' AND discount_id = 3;
+
+-- DELETE QUESTIONS
+
+-- 7.Delete a specific content record for a course.
+
+DELETE FROM content
+WHERE course_id = 3 AND content_id = 3;
+
+-- 8.Remove a user record from the database.
+
+DELETE FROM user 
+WHERE user_id = 2;

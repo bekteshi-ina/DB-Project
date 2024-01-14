@@ -254,10 +254,10 @@ VALUES
 -- Inserting data into Payment table
 INSERT INTO Payment (payment_method, due_date, price, course_id, discount_id)
 VALUES 
-  ('Cash', '2022-01-20 00:00:00', 500, 1, 1),
-  ('Bank Transfer', '2022-03-05 00:00:00', 600, 2, 3),
+  ('Cash', '2022-07-10 00:00:00', 500, 1, 1),
+  ('Bank Transfer', '2022-03-12 00:00:00', 600, 2, 3),
   ('Cash', '2022-04-15 00:00:00', 350, 3, 2),
-  ('Bank Transfer', '2022-06-10 00:00:00', 550, 4, 1);
+  ('Bank Transfer', '2022-03-18 00:00:00', 550, 4, 1);
 
 -- Inserting data into Certification table
 INSERT INTO Certification (course_id, std_id, discription, ranking)

@@ -1,0 +1,79 @@
+-- SELECT Operations:
+
+
+-- 9.Find the courses title, original price , discount name, discount rate and final price after the price of the discount rate has
+-- been applied for discount >= 25%
+
+SELECT
+  C.title AS Title,
+  P.price AS 'Original Price',
+  D.discount_name AS 'Discount Name',
+  D.discount_rate AS 'Discount Rate',
+  P.price - (P.price * D.discount_rate) AS 'Final Price'
+FROM
+  Course C
+JOIN
+  Payment P ON C.course_id = P.course_id
+JOIN
+  Discount D ON P.discount_id = D.discount_id
+WHERE
+  D.discount_rate >= 0.25;
+
+
+
+-- 10.Select the user that has been logged in the last.
+
+SELECT 
+CONCAT(U.first_name, ' ', U.last_name) AS 'Last Logged In User' FROM User U
+WHERE last_loggedIn = (SELECT MAX(last_loggedIn) FROM User);
+
+
+-- Menyre tjeter zgjidhjeje
+
+-- SELECT CONCAT(U.first_name, ' ', U.last_name) AS 'Last Logged In User'
+-- FROM User U
+-- ORDER BY last_loggedIn DESC
+-- LIMIT 1;
+
+
+
+UPDATE Operations:
+
+-- 9.Update the email address of instructors with a specialization in 
+-- "Data Structures and Algorithms"
+
+UPDATE User
+SET email = 'new_email@example.com'
+WHERE user_id IN (
+    SELECT I.inst_id
+    FROM Instructor I
+    WHERE I.specialization = 'Data Structures and Algorithms'
+);
+
+
+-- 10.Update the end date for a course that belongs to an instructor
+-- that has a specialization in 'Software Development' and has more than 5 enrolled students.
+
+UPDATE Schedule
+SET end_date = '2022-07-15'
+WHERE course_id = (
+    SELECT course_id
+    FROM Course
+    WHERE inst_id = (
+        SELECT inst_id
+        FROM Instructor
+        WHERE specialization = 'Software Development'
+    )
+    AND course_id IN (
+        SELECT course_id
+        FROM Enrollment
+        GROUP BY course_id
+        HAVING COUNT(std_id) > 5
+    )
+);
+
+
+
+
+
+

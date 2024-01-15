@@ -28,7 +28,7 @@ SET due_date = '2022-04-10'
 WHERE course_id = 3;
 
 6.Modify the price of a specific course.
-UPDATE Course
+UPDATE Payment
 SET price = 600
 WHERE course_id = 4;
 

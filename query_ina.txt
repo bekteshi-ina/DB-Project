@@ -41,3 +41,4 @@ WHERE assig_id IN (
         WHERE Schedule.end_date < NOW()
     ) AS subquery
 );
+Do fillojm me vezet

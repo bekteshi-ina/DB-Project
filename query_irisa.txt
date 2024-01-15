@@ -42,9 +42,5 @@ WHERE inst_id = 22;
 
 6.Remove a student with a specific name.
 
-DELETE FROM Student
-WHERE std_id IN (
-    SELECT std_id
-    FROM User
-    WHERE first_name = 'Mia' AND last_name = 'Taylor'
-);
+DELETE FROM User
+WHERE first_name = 'Jane' AND account_type = 'student';

@@ -67,29 +67,27 @@ WHERE course.id = course.id AND course.id = 2;
 
 
 --Pjesa e trigger
-ALTER instructor
-ADD COULUM hourly_paid INT;
+ALTER TABLE instructor
+ADD COLUMN hourly_paid INT;
 
-ALTER instructor
-ADD COULUM hourly_paid INT;
-
-UPDATE instructor
-SET hourly_paid = 12
-WHERE inst_id = 21;
+ALTER TABLE instructor
+ADD COLUMN SALARY INT;
 
 UPDATE instructor
-SET hourly_paid = 12
-WHERE inst_id = 22;
+SET hourly_paid = 12;
 
 UPDATE instructor
-SET hourly_paid = 12
-WHERE inst_id = 23;
-
+SET salary = 24960;
 
 CREATE TRIGGER b_hp_update
 BEFORE UPDATE ON instructor
 FOR EACH ROW
-SET NEW.salary = (NEW.hourky_paid * 2080)
+SET NEW.salary = (NEW.hourly_paid * 2080);
+
+
+UPDATE instructor
+SET hourly_paid = 13
+WHERE inst_id = 22;
 
 
 -- kJO ESHTE POTHUAJSE NJEOSJ ME NJE TE MATIASIT PO ME ERDHI NE MENDJE
@@ -99,3 +97,21 @@ from user u
 inner join student s on u.user_id = s.std_id
 inner join certification c on c.std_id = s.std_id
 where ranking > (select avg(ranking) from certification);
+
+
+
+-- Find the remaing enrollments per course
+
+
+SELECT 
+    title,
+    max_participants - COUNT(Enrollment.std_id) AS remaining_enrolls
+FROM 
+    Course
+LEFT JOIN 
+    Enrollment ON Course.course_id = Enrollment.course_id
+GROUP BY 
+    title, max_participants
+HAVING 
+    max_participants - COUNT(Enrollment.std_id) > 4;
+

@@ -15,17 +15,17 @@ CREATE TABLE IF NOT EXISTS User (
 CREATE TABLE IF NOT EXISTS Instructor (
   specialization VARCHAR(64),
   inst_id INT,
-  FOREIGN KEY (inst_id) REFERENCES User(user_id)
+  FOREIGN KEY (inst_id) REFERENCES User(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Student (
    std_id INT,
-   FOREIGN KEY (std_id) references User (user_id)
+   FOREIGN KEY (std_id) references User (user_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Admin(
    admin_id INT PRIMARY KEY,
-   FOREIGN KEY (admin_id) references User (user_id)
+   FOREIGN KEY (admin_id) references User (user_id) 
  );
 
  CREATE TABLE IF NOT EXISTS Course (
@@ -34,15 +34,15 @@ CREATE TABLE IF NOT EXISTS Admin(
   description VARCHAR(1024),
   max_participants INT,
   inst_id INT,
-  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id)
+  FOREIGN KEY (inst_id) REFERENCES Instructor(inst_id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Enrollment (
      is_paid BOOLEAN,
      std_id INT,
-     FOREIGN KEY (std_id) REFERENCES student(std_id),
+     FOREIGN KEY (std_id) REFERENCES student(std_id) ON DELETE CASCADE,
      course_id INT,
-     FOREIGN KEY (course_id) REFERENCES course(course_id)
+     FOREIGN KEY (course_id) REFERENCES course(course_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Certification (
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS Certification (
      std_id INT,
      discription VARCHAR(512),
      ranking  DECIMAL(5,2) NOT NULL,
-     FOREIGN KEY (course_id) REFERENCES Course(course_id),
-     FOREIGN KEY (std_id) REFERENCES Student(std_id)
+     FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE SET NULL,
+     FOREIGN KEY (std_id) REFERENCES Student(std_id) ON DELETE SET NULL
  );
 
 CREATE TABLE IF NOT EXISTS Assignment(
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS Assignment(
     assig_info TEXT NOT NULL,
     upload_date DATETIME NOT NULL,
     course_id INT,
-    FOREIGN KEY (course_id) REFERENCES Course(course_id)
+    FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Submission(
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS Submission(
    submission_file TEXT NOT NULL,
    std_id INT NOT NULL,
    assig_id INT NOT NULL,
-   FOREIGN KEY (std_id) REFERENCES Student(std_id),
-   FOREIGN KEY ( assig_id) REFERENCES Assignment( assig_id)
+   FOREIGN KEY (std_id) REFERENCES Student(std_id) ON DELETE CASCADE,
+   FOREIGN KEY ( assig_id) REFERENCES Assignment( assig_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Schedule(
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Schedule(
   nr_of_sessions INT,
   session_duration TIME,
   course_id INT,
-  FOREIGN KEY(course_id) references Course(course_id)
+  FOREIGN KEY(course_id) references Course(course_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Content (
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS Content (
   update_date datetime NOT NULL,
   content_description TEXT NOT NULL,
   course_id INT,
-  FOREIGN KEY(course_id) references Course(course_id)
+  FOREIGN KEY(course_id) references Course(course_id) ON DELETE CASCADE
  );
 
 CREATE TABLE IF NOT EXISTS Discount (
@@ -108,8 +108,8 @@ CREATE TABLE IF NOT EXISTS Payment (
      price INT NOT NULL,
      course_id INT,
      discount_id INT,
-     FOREIGN KEY (course_id) REFERENCES Course(course_id),
-     FOREIGN KEY (discount_id) REFERENCES Discount(discount_id)
+     FOREIGN KEY (course_id) REFERENCES Course(course_id) ON DELETE CASCADE,
+     FOREIGN KEY (discount_id) REFERENCES Discount(discount_id) ON DELETE SET NULL
  );
 
 -- Inserting data into User table
@@ -163,7 +163,6 @@ VALUES
   (2),
   (3),
   (4),
-  (5),
   (5),
   (6),
   (7),

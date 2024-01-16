@@ -29,7 +29,7 @@ GROUP BY inst_id;
 
 UPDATE Instructor
 JOIN Inst_history ON Instructor.inst_id = Inst_history.inst_id
-SET paid_hour = paid_hour * 0.05
+SET hourly_paid = hourly_paid * 0.05
 WHERE courses_given = (SELECT MAX(courses_given) FROM Inst_history );
 
 

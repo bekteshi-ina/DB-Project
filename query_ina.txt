@@ -68,3 +68,10 @@ JOIN Course ON Assignment.course_id = Course.course_id
 JOIN Schedule ON Course.course_id = Schedule.course_id
 WHERE Schedule.end_date < NOW();
 
+
+----------------------------------------------------------
+3. Delete all discounts who have expired.
+
+DELETE discount FROM Discount
+JOIN Payment ON Payment.discount_id = Discount.discount_id
+WHERE end_date < NOW();

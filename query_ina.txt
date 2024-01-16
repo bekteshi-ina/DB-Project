@@ -22,16 +22,8 @@ UPDATE Operations:
 
 
 CREATE VIEW Inst_history AS
-    SELECT inst_id, COUNT(inst_id) AS courses_given FROM Course
-    GROUP BY inst_id 
-    HAVING COUNT(inst_id) = (
-        SELECT MAX(courses_given)
-        FROM (
-            SELECT COUNT(inst_id) AS courses_given
-            FROM Course
-            GROUP BY inst_id
-        )
-    );
+SELECT inst_id, COUNT(inst_id) AS courses_given FROM Course
+GROUP BY inst_id; 
 
 1.Increase payment per hour with 5% for the instructor who has given the most courses. 
 

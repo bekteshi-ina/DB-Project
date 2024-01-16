@@ -62,8 +62,21 @@ WHERE is_paid = false AND DATEDIFF(NOW(), start_date) > 14;
 
 
 2.Delete all the assignments of the courses which have ended.
+<<<<<<< HEAD
 
 DELETE assignment FROM Assignment 
 JOIN Course ON Assignment.course_id = Course.course_id
 JOIN Schedule ON Course.course_id = Schedule.course_id
 WHERE Schedule.end_date < NOW();
+=======
+DELETE FROM Assignment 
+WHERE assig_id IN (
+    SELECT * FROM (
+        SELECT assig_id  FROM Assignment
+        JOIN Course ON Assignment.course_id = Course.course_id
+        JOIN Schedule ON Course.course_id = Schedule.course_id
+        WHERE Schedule.end_date < NOW()
+    ) AS subquery
+);
+Do fillojm me vezet
+>>>>>>> 21f9b499f3b9e9d5663c9a4c93375c1369bc4eef

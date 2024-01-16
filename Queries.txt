@@ -1,0 +1,279 @@
+SELECT Operations:
+
+
+1.Retrieve the names and email addresses of all instructors.
+
+SELECT CONCAT(first_name, " ", last_name) AS full_name, email FROM User 
+JOIN Instructor ON user_id = inst_id;
+
+
+2.Select the courses titles and their descriptions that have less than 5 enrollments(participants).
+
+SELECT title, COUNT(title) AS enrollments_per_course FROM Course 
+JOIN Enrollment ON Course.course_id = Enrollment.course_id
+JOIN Student ON Enrollment.std_id = Student.std_id
+GROUP BY title HAVING enrollments_per_course < 5;
+
+3.List the submission dates and file names of assignments submitted by a specific student.
+
+SELECT submission_date , assig_info
+FROM assignment INNER JOIN submission
+ON assignment.assig_id = submission.assig_id
+WHERE std_id = 16;
+
+4.Get the start and end dates of courses along with the number of sessions.
+
+SELECT title,start_date,end_date,nr_of_sessions
+FROM schedule INNER JOIN course
+ON schedule.course_id = course.course_id;
+
+5.Find the names of students who have not enrolled in any courses.
+
+SELECT first_name, last_name
+FROM User
+WHERE user_id IN (
+    SELECT std_id
+    FROM Student
+    WHERE std_id NOT IN (
+        SELECT std_id
+        FROM Enrollment
+    )
+);
+
+6.Retrieve the course title and all their content_descriptions.
+
+SELECT Course.title, Content.content_description
+FROM Course
+JOIN Content ON Course.course_id = Content.course_id;
+
+7.List the students full names, that have a certification raking higher than 4.5.
+
+SELECT CONCAT(first_name, ' ', last_name) AS student_name FROM certification c
+INNER JOIN user u 
+ON c.std_id = u.user_id AND c.ranking > 4.5;
+
+SELECT CONCAT(u.first_name, ' ', u.last_name) AS student_name
+FROM user u
+WHERE u.user_id IN (
+	SELECT  std_id
+    FROM certification c
+    WHERE c.ranking > 4.5
+);
+
+
+8.Find the courses title, original price , discount name, discount rate and final price after the price of the discount rate has
+  been applied for discount >= 25%
+
+SELECT
+  C.title AS Title,
+  P.price AS 'Original Price',
+  D.discount_name AS 'Discount Name',
+  D.discount_rate AS 'Discount Rate',
+  P.price - (P.price * D.discount_rate) AS 'Final Price'
+FROM
+  Course C
+JOIN
+  Payment P ON C.course_id = P.course_id
+JOIN
+  Discount D ON P.discount_id = D.discount_id
+WHERE
+  D.discount_rate >= 0.25;
+
+
+9.Select the user that has been logged in the last.
+
+SELECT CONCAT(U.first_name, ' ', U.last_name) AS 'Last Logged In User'
+FROM User U
+ORDER BY last_loggedIn DESC
+LIMIT 1;
+
+10.Find the remaing enrollments per course
+
+SELECT 
+    title,
+    max_participants - COUNT(Enrollment.std_id) AS remaining_enrolls
+FROM 
+    Course
+LEFT JOIN 
+    Enrollment ON Course.course_id = Enrollment.course_id
+GROUP BY 
+    title, max_participants
+HAVING 
+    max_participants - COUNT(Enrollment.std_id) > 4;
+
+
+
+UPDATE Operations:
+
+1.Reduce the session duration of all "Java" courses by 1 hour.
+
+UPDATE Schedule 
+JOIN Course ON Schedule.course_id = Course.course_id
+SET session_duration = SUBTIME(session_duration, "01:00:00") 
+WHERE title = "Java";
+
+2.Change the deadline of a specific assignment.
+
+UPDATE assigment
+SET deadline = "2022-04-20 00:00:00"
+WHERE assig_id = 4;
+
+3.Update the description of a course with a new course description.
+
+UPDATE course
+SET description = "Welcome to our comprehensive Web Development Course, 
+where innovation meets instruction to transform you into a proficient web developer. 
+This course is meticulously designed for both beginners and intermediate learners, 
+offering a dynamic and hands-on approach to mastering the intricacies of web development."
+WHERE course_id = 4;
+
+4.Modify the due date of a payment for a specific course.
+
+UPDATE Payment
+SET due_date = '2022-04-10'
+WHERE course_id = 3;
+
+5.Modify the price of a specific course.
+
+UPDATE Payment
+SET price = 600
+WHERE course_id = 4;
+
+6.Change the start and end dates of a course in the schedule.
+
+UPDATE schedule
+SET start_date = '2022-06-08', end_date = '2022-08-08'
+WHERE course_id = 1;
+
+
+7.Modify the discount rate for a specific discount.
+
+UPDATE discount
+SET discount_rate = 0.40
+WHERE discount_name = 'Summer Sale' AND discount_id = 3;
+
+8.Update the email address of instructors with a specialization in "Data Structures and Algorithms"
+
+UPDATE User
+SET email = 'new_email@example.com'
+WHERE user_id IN (
+    SELECT I.inst_id
+    FROM Instructor I
+    WHERE I.specialization = 'Data Structures and Algorithms'
+);
+
+
+9.Update the end date for a course that belongs to an instructor 
+   that has a specialization in 'Software Development' and has more than 5 enrolled students.
+
+UPDATE Schedule
+SET end_date = '2022-07-15'
+WHERE course_id = (
+    SELECT course_id
+    FROM Course
+    WHERE inst_id = (
+        SELECT inst_id
+        FROM Instructor
+        WHERE specialization = 'Software Development'
+    )
+    AND course_id IN (
+        SELECT course_id
+        FROM Enrollment
+        GROUP BY course_id
+        HAVING COUNT(std_id) > 5
+    )
+);
+
+10. Update instructor table by adding two new columns: hourly_paid and salary and giving them some default values.
+
+ALTER TABLE instructor
+ADD COLUMN hourly_paid DOUBLE;
+
+ALTER TABLE instructor
+ADD COLUMN salary DOUBLE;
+
+UPDATE instructor
+SET hourly_paid = 12;
+
+UPDATE instructor
+SET salary = 24960;
+
+11.Increase payment per hour with 5% for the instructor who has given the most courses. 
+
+CREATE TRIGGER b_hp_update
+BEFORE UPDATE ON instructor
+FOR EACH ROW
+SET NEW.salary = (NEW.hourly_paid * 2080);
+
+
+CREATE VIEW Inst_history AS
+SELECT inst_id, COUNT(inst_id) AS courses_given FROM Course
+GROUP BY inst_id; 
+
+
+UPDATE Instructor
+JOIN Inst_history ON Instructor.inst_id = Inst_history.inst_id
+SET hourly_paid = hourly_paid * 0.05
+WHERE courses_given = (SELECT MAX(courses_given) FROM Inst_history );
+
+
+DELETE Operations:
+
+1.Delete a specific discount.
+
+DELETE FROM discount
+WHERE discount_id = 2
+
+2.Remove a course from the database along with its related records.
+
+DELETE FROM course
+WHERE course.id = course.id AND course.id = 2;
+
+3.Delete a specific instructor from the database.
+
+DELETE FROM Instructor
+WHERE inst_id = 22;
+
+4.Remove a student with a specific name.
+
+DELETE FROM User
+WHERE first_name = 'Jane' AND account_type = 'student';
+
+5. Delete all discounts who have expired.
+
+DELETE discount FROM Discount
+JOIN Payment ON Payment.discount_id = Discount.discount_id
+WHERE end_date < NOW();
+
+6.Delete a specific content record for a course.
+
+DELETE FROM content
+WHERE course_id = 3 AND content_id = 3;
+
+7.Remove a user record from the database.
+
+DELETE FROM user 
+WHERE user_id = 2;
+
+8.Unenroll students who have not paid the course after 14 days from the begining of the course.
+
+DELETE enrollment FROM Enrollment
+JOIN Course ON Enrollment.course_id = Course.course_id
+JOIN Schedule ON Course.course_id = Schedule.course_id
+WHERE is_paid = false AND DATEDIFF(NOW(), start_date) > 14;
+
+
+9.Delete all the assignments of the courses which have ended.
+
+DELETE assignment FROM Assignment 
+JOIN Course ON Assignment.course_id = Course.course_id  
+JOIN Schedule ON Course.course_id = Schedule.course_id
+WHERE Schedule.end_date < NOW();
+
+
+
+
+
+
+
+

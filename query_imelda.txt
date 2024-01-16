@@ -40,25 +40,6 @@ WHERE discount_id = 2
 
 4.Remove a course from the database along with its related records.
 
-DELETE FROM enrollment
-WHERE course.id = course.id AND course.id = 2;
-
-DELETE FROM ceftification
-WHERE course.id = course.id AND course.id = 2;
- 
-DELETE FROM assogment
-WHERE course.id = course.id AND course.id = 2;
-
-DELETE FROM schedule
-WHERE course.id = course.id AND course.id = 2;
-
-DELETE FROM content
-WHERE course.id = course.id AND course.id = 2;
-
-DELETE FROM payment
-WHERE course.id = course.id AND course.id = 2;
-
--- delete from the main table
 DELETE FROM course
 WHERE course.id = course.id AND course.id = 2;
 
@@ -101,7 +82,6 @@ where ranking > (select avg(ranking) from certification);
 
 
 -- Find the remaing enrollments per course
-
 
 SELECT 
     title,
